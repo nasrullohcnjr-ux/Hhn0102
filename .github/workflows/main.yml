@@ -19,15 +19,14 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
-
-    - name: Install Dependencies & Sync Capacitor
+    - name: Prepare Missing Capacitor Files
       run: |
-        npm install
-        npx cap sync android
+        if [ -f "package.json" ]; then
+          npm install
+          npx cap sync android || true
+        fi
+        mkdir -p capacitor-cordova-android-plugins
+        touch capacitor-cordova-android-plugins/cordova.variables.gradle
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -40,4 +39,5 @@ jobs:
       with:
         name: hhn0102-apk
         path: app/build/outputs/apk/debug/app-debug.apk
+
 

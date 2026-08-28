@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplikasi Pintas Media Sosial & Pembayaran</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #f4f6f9;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      padding: 20px 15px;
+    }
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: #ffffff;
+      padding: 24px 20px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .profile-img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #e0e0e0;
+      margin: 0 auto 12px auto;
+      object-fit: cover;
+    }
+    h2 { font-size: 1.3rem; margin-bottom: 4px; }
+    p.subtitle { font-size: 0.85rem; color: #666; margin-bottom: 20px; }
+    
+    .section-title {
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #888;
+      text-align: left;
+      margin: 18px 0 8px 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: opacity 0.2s ease;
+    }
+    .btn:active { opacity: 0.85; }
+
+    /* Warna Brand */
+    .btn-wa { background-color: #25D366; }
+    .btn-ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+    .btn-fb { background-color: #1877F2; }
+    .btn-tt { background-color: #000000; }
+    .btn-qris { background-color: #ED1C24; cursor: pointer; border: none; }
+
+    /* Modal QRIS */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .modal-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 16px;
+      max-width: 320px;
+      width: 90%;
+      text-align: center;
+    }
+    .qris-img {
+      width: 100%;
+      max-width: 240px;
+      border-radius: 8px;
+      margin: 12px 0;
+    }
+    .close-btn {
+      background: #444;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Foto & Judul -->
+    <img src="https://via.placeholder.com/90" alt="Logo" class="profile-img">
+    <h2>Nama Toko / Akun Anda</h2>
+    <p class="subtitle">Hubungi kami atau lakukan pembayaran cepat di bawah ini</p>
+
+    <!-- Section WhatsApp & Sosial Media -->
+    <div class="section-title">Kontak & Media Sosial</div>
+    
+    <a href="https://wa.me/6281234567890?text=Halo,%20saya%20ingin%20bertanya" target="_blank" class="btn btn-wa">
+      WhatsApp Chat
+    </a>
+    
+    <a href="https://instagram.com/username_anda" target="_blank" class="btn btn-ig">
+      Instagram
+    </a>
+    
+    <a href="https://facebook.com/username_anda" target="_blank" class="btn btn-fb">
+      Facebook
+    </a>
+    
+    <a href="https://tiktok.com/@username_anda" target="_blank" class="btn btn-tt">
+      TikTok
+    </a>
+
+    <!-- Section E-Wallet / Pembayaran -->
+    <div class="section-title">Pembayaran / E-Wallet</div>
+    
+    <button class="btn btn-qris" onclick="openModal()">
+      Bayar via QRIS / E-Wallet
+    </button>
+  </div>
+
+  <!-- Pop-up Gambar QRIS -->
+  <div class="modal" id="qrisModal">
+    <div class="modal-content">
+      <h3>Scan QRIS Pembayaran</h3>
+      <p style="font-size: 0.8rem; color: #666; margin-top: 4px;">Dapat digunakan untuk GoPay, OVO, DANA, ShopeePay, & M-Banking</p>
+      <!-- Ganti URL gambar di bawah dengan gambar QRIS milik Anda -->
+      <img src="https://via.placeholder.com/250x300?text=Gambar+QRIS+Anda" alt="QRIS Code" class="qris-img">
+      <br>
+      <button class="close-btn" onclick="closeModal()">Tutup</button>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('qrisModal').style.display = 'flex';
+    }
+    function closeModal() {
+      document.getElementById('qrisModal').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>

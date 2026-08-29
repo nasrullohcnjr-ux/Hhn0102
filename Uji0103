@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spesifikasi Arsitektur Teknis & Skema Database SuperApp</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0b0f19;
+            --bg-card: #0f172a;
+            --bg-hover: #1e293b;
+            --border-color: #334155;
+            --text-title: #f8fafc;
+            --text-body: #94a3b8;
+            --accent-cyan: #38bdf8;
+            --accent-green: #10b981;
+            --accent-purple: #a855f7;
+            --accent-orange: #f97316;
+            --accent-pink: #ec4899;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-body);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Styling */
+        header {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.7));
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(15, 23, 42, 0) 70%);
+            border-radius: 50%;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: var(--accent-cyan);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        header h1 {
+            color: var(--text-title);
+            font-size: 38px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        header p {
+            font-size: 18px;
+            max-width: 850px;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .meta-item i {
+            font-size: 20px;
+            color: var(--accent-cyan);
+        }
+
+        .meta-item div span {
+            display: block;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .meta-item div strong {
+            color: var(--text-title);
+            font-size: 14px;
+        }
+
+        /* Section Cards */
+        section {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-header i {
+            font-size: 26px;
+            color: var(--accent-cyan);
+            background: rgba(56, 189, 248, 0.1);
+            padding: 10px;
+            border-radius: 12px;
+        }
+
+        .section-header h2 {
+            color: var(--text-title);
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        /* Tech Stack Grid */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .tech-card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-cyan);
+        }
+
+        .tech-card .icon-box {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .tech-card h3 {
+            color: var(--text-title);
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .tech-card p {
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .tech-card .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag-list span {
+            background: #0f172a;
+            color: var(--accent-cyan);
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid #334155;
+        }
+
+        /* Database Schema Tables */
+        .schema-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .table-box {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .table-box-header {
+            background-color: #0f172a;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #334155;
+        }
+
+        .table-box-header h3 {
+            color: var(--accent-cyan);
+            font-family: 'Fira Code', monospace;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .module-badge {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-core { background: rgba(56, 189, 248, 0.2); color: var(--accent-cyan); }
+        .badge-wallet { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
+        .badge-chat { background: rgba(168, 85, 247, 0.2); color: var(--accent-purple); }
+        .badge-social { background: rgba(249, 115, 22, 0.2); color: var(--accent-orange); }
+        .badge-mail { background: rgba(236, 72, 153, 0.2); color: var(--accent-pink); }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 12px 20px;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+
+        th {
+            background-color: rgba(15, 23, 42, 0.5);
+            color: var(--text-title);
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td.field-name {
+            font-family: 'Fira Code', monospace;
+            color: var(--text-title);
+            font-weight: 600;
+        }
+
+        td.field-type {
+            font-family: 'Fira Code', monospace;
+            color: var(--accent-cyan);
+        }
+
+        .pk { color: #facc15; font-size: 11px; font-weight: bold; margin-right: 4px; }
+        .fk { color: var(--accent-purple); font-size: 11px; font-weight: bold; margin-right: 4px; }
+
+        /* Flow / Architecture Diagrams */
+        .flow-box {
+            background-color: #1e293b;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #334155;
+        }
+
+        .flow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .step-card {
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 18px;
+            position: relative;
+        }
+
+        .step-number {
+            width: 28px;
+            height: 28px;
+            background: var(--accent-cyan);
+            color: #0f172a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .step-card h4 {
+            color: var(--text-title);
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        .step-card p {
+            font-size: 13px;
+        }
+
+        /* List Styling */
+        .bullet-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 28px;
+        }
+
+        .bullet-list li i {
+            position: absolute;
+            left: 0;
+            top: 4px;
+            color: var(--accent-cyan);
+        }
+
+        .bullet-list strong {
+            color: var(--text-title);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 40px;
+            font-size: 14px;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Header Spesifikasi -->
+    <header>
+        <span class="badge"><i class="fa-solid fa-microchip"></i> Technical Blueprint v1.0</span>
+        <h1>Arsitektur Teknis & Database SuperApp</h1>
+        <p>Spesifikasi sistem backend, skema basis data relasional, mekanisme otentikasi tunggal (SSO), serta protokol transaksi finansial untuk integrasi Chat, Mail, Sosmed, dan E-Wallet.</p>
+        
+        <div class="meta-grid">
+            <div class="meta-item">
+                <i class="fa-solid fa-layer-group"></i>
+                <div>
+                    <span>Pola Arsitektur</span>
+                    <strong>Modular Monolith / Microservices</strong>
+                </div>
+            </div>
+            <div class="meta-item">
+                <i class="fa-solid fa-database"></i>
+                <div>
+                    <span>Database Utama</span>
+                    <strong>PostgreSQL + Redis Cache</strong>
+                </div>
+            </div>
+            <div class="meta-item">
+                <i class="fa-solid fa-shield-halved"></i>
+                <div>
+                    <span>Keamanan Wallet</span>
+                    <strong>Double-Entry Ledger + PIN Hash</strong>
+                </div>
+            </div>
+            <div class="meta-item">
+                <i class="fa-solid fa-bolt"></i>
+                <div>
+                    <span>Real-Time Engine</span>
+                    <strong>WebSocket (Socket.io / PubSub)</strong>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Section 1: Tech Stack Recommendation -->
+    <section>
+        <div class="section-header">
+            <i class="fa-solid fa-cubes"></i>
+            <div>
+                <h2>1. Rekomendasi Tech Stack & Infrastruktur</h2>
+                <p>Kombinasi teknologi terbaik untuk memastikan kinerja aplikasi tetap responsif dan konsumsi daya minimal.</p>
+            </div>
+        </div>
+
+        <div class="tech-grid">
+            <div class="tech-card">
+                <div class="icon-box" style="color: var(--accent-cyan);"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                <h3>Mobile Client</h3>
+                <p>Framework cross-platform performa tinggi dengan render komponen native.</p>
+                <div class="tag-list">
+                    <span>Flutter</span>
+                    <span>React Native</span>
+                    <span>State Mgmt (Bloc/Redux)</span>
+                </div>
+            </div>
+
+            <div class="tech-card">
+                <div class="icon-box" style="color: var(--accent-green);"><i class="fa-solid fa-server"></i></div>
+                <h3>Backend Services</h3>
+                <p>Service API skala tinggi dengan dukungan penanganan permintaan konkuen.</p>
+                <div class="tag-list">
+                    <span>Node.js (NestJS)</span>
+                    <span>Go (Golang)</span>
+                    <span>REST / gRPC</span>
+                </div>
+            </div>
+
+            <div class="tech-card">
+                <div class="icon-box" style="color: var(--accent-purple);"><i class="fa-solid fa-database"></i></div>
+                <h3>Persistence & Storage</h3>
+                <p>Penyimpanan data relasional ACID untuk transaksi, serta cache cepat untuk chat.</p>
+                <div class="tag-list">
+                    <span>PostgreSQL</span>
+                    <span>Redis (Pub/Sub)</span>
+                    <span>AWS S3 / MinIO</span>
+                </div>
+            </div>
+
+            <div class="tech-card">
+                <div class="icon-box" style="color: var(--accent-orange);"><i class="fa-solid fa-network-wired"></i></div>
+                <h3>Real-time & Gateways</h3>
+                <p>Koneksi duplex untuk instant messaging, push notification, dan payment Webhooks.</p>
+                <div class="tag-list">
+                    <span>WebSockets</span>
+                    <span>RabbitMQ / Kafka</span>
+                    <span>QRIS API</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Database Schema Specification -->
+    <section>
+        <div class="section-header">
+            <i class="fa-solid fa-table-cells"></i>
+            <div>
+                <h2>2. Spesifikasi Skema Database Relasional (PostgreSQL)</h2>
+                <p>Perancangan tabel terstruktur yang menghubungkan profil identitas tunggal ke seluruh modul layanan.</p>
+            </div>
+        </div>
+
+        <div class="schema-container">
+
+            <!-- Table 1: Users & Auth -->
+            <div class="table-box">
+                <div class="table-box-header">
+                    <h3><i class="fa-solid fa-user-lock"></i> 1. Tabel: `users` & `auth_sessions`</h3>
+                    <span class="module-badge badge-core">Core SSO</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Field Name</th>
+                            <th>Data Type</th>
+                            <th>Constraints</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="field-name"><span class="pk">PK</span> id</td>
+                            <td class="field-type">UUID</td>
+                            <td>NOT NULL, UNIQUE</td>
+                            <td>Primary key identitas unik pengguna.</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">full_name</td>
+                            <td class="field-type">VARCHAR(100)</td>
+                            <td>NOT NULL</td>
+                            <td>Nama lengkap pengguna.</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">email</td>
+                            <td class="field-type">VARCHAR(150)</td>
+                            <td>UNIQUE, INDEX</td>
+                            <td>Alamat email SSO & modul mail.</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">phone_number</td>
+                            <td class="field-type">VARCHAR(20)</td>
+                            <td>UNIQUE, INDEX</td>
+                            <td>Nomor telepon utama untuk E-Wallet & Chat.</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">pin_hash</td>
+                            <td class="field-type">VARCHAR(255)</td>
+                            <td>NOT NULL</td>
+                            <td>Hashed PIN 6-digit (Bcrypt/Argon2) untuk transaksi E-Wallet.</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">avatar_url</td>
+                            <td class="field-type">TEXT</td>
+                            <td>NULLABLE</td>
+                            <td>Link foto profil SSO universal.</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">created_at</td>
+                            <td class="field-type">TIMESTAMPTZ</td>
+                            <td>DEFAULT NOW()</td>
+                            <td>Waktu pendaftaran akun.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table 2: E-Wallet Ledger -->
+            <div class="table-box">
+                <div class="table-box-header">
+                    <h3><i class="fa-solid fa-wallet"></i> 2. Tabel: `wallets` & `wallet_transactions`</h3>
+                    <span class="module-badge badge-wallet">Modul E-Wallet</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Field Name</th>
+                            <th>Data Type</th>
+                            <th>Constraints</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="field-name"><span class="pk">PK</span> id</td>
+                            <td class="field-type">UUID</td>
+                            <td>NOT NULL</td>
+                            <td>ID unik rekening dompet digital.</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name"><span class="fk">FK</span> user_id</td>
+                            <td class="field-type">UUID</td>
+                            <td>FOREIGN KEY (`users.id`)</td>
+                            <td>Pemilik akun wallet.</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">balance</td>
+                            <td class="field-type">NUMERIC(15,2)</td>
+                            <td>CHECK (balance >= 0)</td>
+                            <td>Saldo aktif pengguna (mencegah saldo minus).</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">currency</td>
+                            <td class="field-type">VARCHAR(3)</td>
+                            <td>DEFAULT 'IDR'</td>
+                            <td>Mata uang transaksi.</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">reference_no</td>
+                            <td class="field-type">VARCHAR(64)</td>
+                            <td>UNIQUE, INDEX</td>
+                            <td>Nomor referensi unik transaksi (Struk/Receipt).</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">trx_type</td>
+                            <td class="field-type">ENUM</td>
+                            <td>TRANSFER, TOPUP, QRIS</td>
+                            <td>Kategori jenis transaksi finansial.</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">amount</td>
+                            <td class="field-type">NUMERIC(15,2)</td>
+                            <td>NOT NULL</td>
+                            <td>Nominal uang yang ditransaksikan.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table 3: Chat Messaging -->
+            <div class="table-box">
+                <div class="table-box-header">
+                    <h3><i class="fa-solid fa-comments"></i> 3. Tabel: `conversations` & `chat_messages`</h3>
+                    <span class="module-badge badge-chat">Modul Messaging</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Field Name</th>
+                            <th>Data Type</th>
+                            <th>Constraints</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="field-name"><span class="pk">PK</span> id</td>
+                            <td class="field-type">UUID</td>
+                            <td>NOT NULL</td>
+                            <td>ID unik untuk setiap gelembung pesan.</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name"><span class="fk">FK</span> conversation_id</td>
+                            <td class="field-type">UUID</td>
+                            <td>INDEX</td>
+                            <td>ID ruang obrolan (Direct/Group Chat).</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name"><span class="fk">FK</span> sender_id</td>
+                            <td class="field-type">UUID</td>
+                            <td>FOREIGN KEY (`users.id`)</td>
+                            <td>Pengirim pesan.</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">message_type</td>
+                            <td class="field-type">ENUM</td>
+                            <td>TEXT, IMAGE, FILE, WALLET_RECEIPT</td>
+                            <td>Format tipe isi konten obrolan.</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">content</td>
+                            <td class="field-type">TEXT</td>
+                            <td>NULLABLE</td>
+                            <td>Isi Teks obrolan atau payload metadata attachment.</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">is_read</td>
+                            <td class="field-type">BOOLEAN</td>
+                            <td>DEFAULT FALSE</td>
+                            <td>Status indikator dibaca (Centang Biru).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table 4: Social Posts -->
+            <div class="table-box">
+                <div class="table-box-header">
+                    <h3><i class="fa-solid fa-share-nodes"></i> 4. Tabel: `social_posts` & `post_interactions`</h3>
+                    <span class="module-badge badge-social">Modul Social Media</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Field Name</th>
+                            <th>Data Type</th>
+                            <th>Constraints</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="field-name"><span class="pk">PK</span> id</td>
+                            <td class="field-type">UUID</td>
+                            <td>NOT NULL</td>
+                            <td>ID unik postingan timeline.</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name"><span class="fk">FK</span> author_id</td>
+                            <td class="field-type">UUID</td>
+                            <td>FOREIGN KEY (`users.id`)</td>
+                            <td>Pembuat postingan sosmed.</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">caption</td>
+                            <td class="field-type">TEXT</td>
+                            <td>NULLABLE</td>
+                            <td>Teks narasi/caption unggahan.</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">media_urls</td>
+                            <td class="field-type">JSONB</td>
+                            <td>DEFAULT '[]'</td>
+                            <td>Array link gambar/video postingan.</td>
+                        </tr>
+                        <tr>
+                            <td class="field-name">likes_count</td>
+                            <td class="field-type">INTEGER</td>
+                            <td>DEFAULT 0</td>
+                            <td>Counter cache jumlah suka (Like).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Section 3: Cross-Module Integration Strategy -->
+    <section>
+        <div class="section-header">
+            <i class="fa-solid fa-diagram-project"></i>
+            <div>
+                <h2>3. Strategi Integrasi Lintas Modul (Event-Driven Architecture)</h2>
+                <p>Mekanisme pertukaran data antar modul tanpa menimbulkan ketergantungan erat (Loose Coupling).</p>
+            </div>
+        </div>
+
+        <div class="flow-box">
+            <h3 style="color: var(--text-title); font-size: 18px; margin-bottom: 12px;">Skenario: Transfer Uang di Chat & Pembagian Struk ke Feed</h3>
+            <p>Saat pengguna melakukan transaksi finansial di dalam obrolan, urutan pemrosesan sistem adalah sebagai berikut:</p>
+            
+            <div class="flow-steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4>Otentikasi PIN</h4>
+                    <p>Client mengirim request kirim saldo + hash PIN ke API Service E-Wallet.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4>Database Transaction</h4>
+                    <p>PostgreSQL mengeksekusi `BEGIN...COMMIT` debit saldo pengirim & kredit penerima secara atomic.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4>Publish Event</h4>
+                    <p>Event Bus (RabbitMQ) menerbitkan event `WALLETTX_SUCCESS` ke Message Broker.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h4>Auto-Inject Chat</h4>
+                    <p>Chat Service menerima event & menyisipkan gelembung kartu transaksi secara instan via WebSocket.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Security & Next Steps -->
+    <section>
+        <div class="section-header">
+            <i class="fa-solid fa-shield-cat"></i>
+            <div>
+                <h2>4. Standar Keamanan & Langkah Selanjutnya</h2>
+                <p>Prinsip dasar perlindungan data sensitif pengguna pada rilis versi MVP.</p>
+            </div>
+        </div>
+
+        <ul class="bullet-list">
+            <li><i class="fa-solid fa-check"></i> <strong>Penyimpanan Kunci Akses (JWT & Refresh Token):</strong> Akses token disimpan aman di `EncryptedSharedPreferences` (Android) / `Keychain` (iOS).</li>
+            <li><i class="fa-solid fa-check"></i> <strong>Anti-Double Spending Ledger:</strong> Seluruh mutasi saldo e-wallet menggunakan prinsip *Double-Entry Bookkeeping* dengan kuncian baris DB (`SELECT FOR UPDATE`).</li>
+            <li><i class="fa-solid fa-check"></i> <strong>Enkripsi Lalu Lintas Data:</strong> Semua komunikasi REST API & WebSocket wajib menggunakan HTTPS / WSS (TLS 1.3).</li>
+        </ul>
+    </section>
+
+    <footer>
+        SuperApp Architecture & Database Specification Blueprint v1.0 • Ready for Sprint Execution
+    </footer>
+
+</div>
+
+</body>
+</html>
+```eof
+
+### Ringkasan Dokumen Arsitektur Teknis yang Baru Disusun:
+1. **Tech Stack Rekomendasi:**
+   - **Mobile Client:** Flutter / React Native (Performa *native* & cepat untuk MVP).
+   - **Backend:** Node.js (NestJS) / Go dengan arsitektur *Modular Monolith*.
+   - **Database:** PostgreSQL untuk konsistensi transaksi saldo (ACID compliant) + Redis untuk *caching/pub-sub messaging*.
+2. **Skema Database Relasional (PostgreSQL):**
+   - **`users` (Core SSO):** Identitas terpadu penghubung seluruh modul.
+   - **`wallets` & `wallet_transactions`:** Manajemen saldo dan buku besar mutasi (*ledger*).
+   - **`conversations` & `chat_messages`:** Struktur pesan obrolan terenkripsi.
+   - **`social_posts`:** Tabel linimasa sosial media berbasis JSONB.
+3. **Mekanisme Integrasi Lintas Modul:** Alur *event-driven* saat transaksi keuangan dilakukan langsung dari ruang chat atau email.
+
+Apakah dokumen teknis dan skema database ini sudah sesuai dengan kebutuhan proyek Anda? Kita bisa melanjutkan ke penyiapan struktur folder kode (*boilerplate setup*) atau langsung ke pembuatan skrip API backend!

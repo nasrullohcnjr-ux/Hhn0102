@@ -1,0 +1,13 @@
+MultiFungsi/
+├── app/
+│   ├── src/main/
+│   │   ├── java/...
+│   │   ├── assets/
+│   │   │   ├── index.html
+│   │   │   ├── style.css
+│   │   │   └── app.js
+│   │   └── AndroidManifest.xml
+│   └── build.gradle
+├── build.gradle
+├── settings.gradle
+└── gradle.properties

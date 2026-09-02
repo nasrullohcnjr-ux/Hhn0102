@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#6750a4">
+<title>MultiFungsi</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div><h1>MultiFungsi</h1><p>Satu tempat untuk layanan digital</p></div>
+  <button id="themeBtn" aria-label="Mode gelap">🌙</button>
+</header>
+
+<main>
+  <input id="search" class="search" placeholder="🔎 Cari layanan..." autocomplete="off">
+
+  <section>
+    <h2>Komunikasi</h2>
+    <div class="grid">
+      <button class="card" data-name="email" onclick="openService('email')"><b>📧</b><span>Email</span><small>Gmail / Outlook</small></button>
+      <button class="card" data-name="whatsapp wa pesan" onclick="openService('whatsapp')"><b>💬</b><span>WhatsApp</span><small>Chat & pesan</small></button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Media Sosial</h2>
+    <div class="grid">
+      <button class="card" data-name="facebook" onclick="openService('facebook')"><b>📘</b><span>Facebook</span><small>Sosial media</small></button>
+      <button class="card" data-name="instagram" onclick="openService('instagram')"><b>📸</b><span>Instagram</span><small>Sosial media</small></button>
+      <button class="card" data-name="tiktok" onclick="openService('tiktok')"><b>🎵</b><span>TikTok</span><small>Video pendek</small></button>
+      <button class="card" data-name="x twitter" onclick="openService('x')"><b>𝕏</b><span>X</span><small>Sosial media</small></button>
+    </div>
+  </section>
+
+  <section>
+    <h2>E-Wallet</h2>
+    <div class="grid">
+      <button class="card" data-name="dana" onclick="openService('dana')"><b>💙</b><span>DANA</span><small>E-wallet</small></button>
+      <button class="card" data-name="gopay gojek" onclick="openService('gopay')"><b>💚</b><span>GoPay</span><small>E-wallet</small></button>
+      <button class="card" data-name="ovo" onclick="openService('ovo')"><b>💜</b><span>OVO</span><small>E-wallet</small></button>
+      <button class="card" data-name="shopeepay" onclick="openService('shopeepay')"><b>🧡</b><span>ShopeePay</span><small>E-wallet</small></button>
+    </div>
+  </section>
+
+  <div id="empty" class="empty" hidden>Layanan tidak ditemukan.</div>
+</main>
+
+<footer>MultiFungsi • Versi 1.0</footer>
+<script src="app.js"></script>
+</body>
+</html>

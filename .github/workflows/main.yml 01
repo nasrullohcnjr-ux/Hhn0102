@@ -1,0 +1,42 @@
+cd ~/Hhn0102
+mkdir -p .github/workflows
+cat << 'EOF' > .github/workflows/master.yml
+name: Build Android APK
+
+on:
+  push:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Make Gradlew Executable
+        run: chmod +x gradlew
+
+      - name: Generate Missing Plugin File
+        run: |
+          mkdir -p capacitor-cordova-android-plugins
+          echo "// empty" > capacitor-cordova-android-plugins/cordova.variables.gradle
+
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: app/build/outputs/apk/debug/app-debug.apk
+EOF
+git add .
+git commit -m "Fix workflow JDK version and assemble build"
+git push origin master

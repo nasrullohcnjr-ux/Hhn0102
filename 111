@@ -1,0 +1,6 @@
+git config --global user.email "nasrullohcnjr@gmail.com"
+git config --global user.name "nasrullohcnjr-ux"
+git add .
+git commit -m "Initial clean build setup"
+git branch -M main
+git push origin main
